@@ -15,7 +15,18 @@ builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(bui
 
 builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<AuthDbContext>();
 
+builder.Services.Configure<IdentityOptions>(options =>
+{
+	options.Password.RequireDigit= true;
+	options.Password.RequireUppercase= true;
+	options.Password.RequireLowercase= true;
+	options.Password.RequireNonAlphanumeric= true;
+	options.Password.RequiredLength= 6;
+	options.Password.RequiredUniqueChars= 1;
 
+}
+
+);
 
 //Oluþturmuþ olduðumuz tag repositoryi ve itaginterface'i artýk db contexmiþçesine kullanabilmek ve classlarýmýza enjekte edebilmek için aþaðýdaki builder servisini kullanýyoruz. Artýk controllerda tagrepositoryi kullanarak DbContex eriþimini dolaylý yoldan saðlamýþ olacaðýz.
 builder.Services.AddScoped<ITagInterface, TagRepository>();

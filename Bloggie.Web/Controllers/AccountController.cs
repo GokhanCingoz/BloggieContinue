@@ -7,10 +7,12 @@ namespace Bloggie.Web.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> userManager;
+        private readonly SignInManager<IdentityUser> signInManager;
 
-        public AccountController(UserManager<IdentityUser> userManager)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             this.userManager = userManager;
+            this.signInManager = signInManager;
         }
 
         [HttpGet]
@@ -20,16 +22,16 @@ namespace Bloggie.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModal registerViewModal)
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
             var identityUser = new IdentityUser
             {
-                Email = registerViewModal.Email,
-                UserName = registerViewModal.UserName,
+                Email = registerViewModel.Email,
+                UserName = registerViewModel.Username,
 
             };
 
-            var identityResult = await userManager.CreateAsync(identityUser,registerViewModal.Password);
+            var identityResult = await userManager.CreateAsync(identityUser, registerViewModel.Password);
 
             if (identityResult.Succeeded)
             {
@@ -39,11 +41,30 @@ namespace Bloggie.Web.Controllers
 
                 if (roleIdentityResult.Succeeded)
                 {
-                    return RedirectToAction("Index","Home");
+                    return RedirectToAction("Index", "Home");
                 }
 
             }
 
+            return View();
+        }
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        {
+            var signInResult = await signInManager.PasswordSignInAsync(loginViewModel.Username, loginViewModel.Password, false, false);
+
+
+            if (signInResult.Succeeded && signInResult != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
     }
