@@ -90,8 +90,8 @@ namespace Bloggie.Web.Controllers
 				DisplayName = editTagRequest.DisplayName
 			};
 
-
 			var updatedTag = await tagRepository.UpdateAsync(tag);
+
 			if(updatedTag != null)
 			{
 				//olur notificationları
