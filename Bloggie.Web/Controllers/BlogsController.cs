@@ -16,7 +16,7 @@ namespace Bloggie.Web.Controllers
         public async Task<IActionResult> Index(string urlHandle)
         {   
             var blogpost = await blogPostRepository.GetByIdUrlHandleAsync(urlHandle);
-            return View();
+            return View(blogpost);
         }
     }
 }
