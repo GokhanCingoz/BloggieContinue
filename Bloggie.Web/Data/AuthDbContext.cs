@@ -46,7 +46,7 @@ namespace Bloggie.Web.Data
                 {
                     Name = "User",
                     NormalizedName = "User",
-                    Id=userRoleId
+                    Id=userRoleId,
                     ConcurrencyStamp = userRoleId,
 
                 },
@@ -92,6 +92,8 @@ namespace Bloggie.Web.Data
                       UserId= superAdminId,
                  }
             };
+
+           builder.Entity<IdentityUserRole<string>>().HasData(superAdminRoles);
         }
     }
 }
