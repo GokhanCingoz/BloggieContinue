@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bloggie.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminTagsController : Controller
     {
         private readonly ITagInterface tagRepository;
@@ -21,7 +22,7 @@ namespace Bloggie.Web.Controllers
 
         //Tag ekleme get metodu
         [HttpGet]
-        [Authorize(Roles ="Admin")]
+       
         public IActionResult Add()
         {
             return View();

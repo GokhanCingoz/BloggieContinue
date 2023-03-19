@@ -1,9 +1,11 @@
 ﻿using Bloggie.Web.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bloggie.Web.Controllers
 {
+   
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> userManager;
@@ -49,9 +51,11 @@ namespace Bloggie.Web.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
+        public IActionResult Login(string ReturnUrl)
+        {   
+            var model = new LoginViewModel { ReturnUrl = ReturnUrl };
+
+            return View(model);
         }
 
         [HttpPost]
@@ -63,6 +67,10 @@ namespace Bloggie.Web.Controllers
 
             if (signInResult.Succeeded && signInResult != null)
             {
+                if (!string.IsNullOrWhiteSpace(loginViewModel.ReturnUrl))
+                {
+                    return Redirect(loginViewModel.ReturnUrl);
+                }
                 return RedirectToAction("Index", "Home");
             }
             return View();

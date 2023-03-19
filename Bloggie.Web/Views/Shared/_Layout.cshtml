@@ -28,19 +28,27 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                AdminPanel
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-dark">
-                                <li><a class="dropdown-item" asp-area="" asp-controller="AdminTags" asp-action="Add">Add Tag</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="AdminTags" asp-action="List">List Tags</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="AdminBlogPosts" asp-action="Add">Add Blog Post</a></li>
 
-                                <li><a class="dropdown-item" asp-area="" asp-controller="AdminBlogPosts" asp-action="List">List Blog Post</a></li>
 
-                            </ul>
-                        </li>
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    AdminPanel
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="AdminTags" asp-action="Add">Add Tag</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="AdminTags" asp-action="List">List Tags</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="AdminBlogPosts" asp-action="Add">Add Blog Post</a></li>
+
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="AdminBlogPosts" asp-action="List">List Blog Post</a></li>
+
+                                </ul>
+                            </li>
+                        }
+
+
+
                     </ul>
 
                     @if (signInManager.IsSignedIn(User))
